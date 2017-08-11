@@ -2,17 +2,21 @@
   <div id="app">
     <StyleEditor ref="styleEditor" 
       :code="currentStyle" 
-      :isSkip="isSkip">
+      :isSkip="isSkip"
+      v-show="!isComplete">
     </StyleEditor>
     <ResumeEditor ref="resumeEditor" 
       :markdown="currentMarkdown" 
-      :enableHtml="enableHtml">
+      :enableHtml="enableHtml"
+      :isComplete="isComplete">
     </ResumeEditor>
-    <AppFooter v-bind="{isStop, isSkip, scale}" 
+    <AppFooter v-bind="{isStop, isSkip, isComplete, scale}" 
+      @enter="isComplete = false, remakeResume()" 
+      @exit="isComplete = true" 
       @pause="isStop = true" 
       @resume="isStop = false" 
       @skip="isSkip = true" 
-      @replay="remake" 
+      @replay="remakeResume" 
       @accelerate="scale < 2 && scale++" 
       @decelerate="scale > -2 && scale--">
     </AppFooter>
@@ -38,9 +42,10 @@ export default {
       timer: 0,
       scale: 0,
       isStop: false,
-      isSkip: false,
+      isSkip: true,
+      isComplete: true,
       currentStyle: '',
-      enableHtml: false,
+      enableHtml: true,
       fullStyle: style.split('/*@@*/'),
       currentMarkdown: '',
       fullMarkdown: resume
@@ -52,7 +57,8 @@ export default {
     }
   },
   mounted () {
-    this.makeResume()
+    this.currentStyle = this.fullStyle.join('')
+    this.currentMarkdown = this.fullMarkdown
   },
   methods: {
     makeResume: async function() {
@@ -141,7 +147,7 @@ export default {
     makeComplete () {
       this.isSkip = true
     },
-    remake () {
+    remakeResume () {
       this.isStop = false
       this.isSkip = false
       this.enableHtml = false

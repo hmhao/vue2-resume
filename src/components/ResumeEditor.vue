@@ -1,5 +1,5 @@
 <template>
-  <div class="resumeEditor" :class="{htmlMode:enableHtml}" ref="container">
+  <div class="resumeEditor" :class="{htmlMode:enableHtml, resumeComplete:isComplete}" ref="container">
     <div v-if="enableHtml" v-html="result"></div>
     <pre v-else>{{result}}</pre>
   </div>
@@ -11,7 +11,8 @@ export default {
   name: 'resume-editor',
   props: {
     markdown: '', 
-    enableHtml: false
+    enableHtml: false,
+    isComplete: true
   },
   computed: {
     result () {
@@ -38,5 +39,12 @@ export default {
     to {
       opacity: 1;
     }
+  }
+
+  .resumeComplete{
+    max-width: 960px;
+    height: 95vh;
+    right: 25%;
+    transform: rotateY(0) translateZ(0);
   }
 </style>

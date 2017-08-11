@@ -1,19 +1,25 @@
 <template>
   <div class="footer">
-    <span style="float:left" v-show="!isSkip">
-      <a href="javascript:void(0)" id="pause-resume" @click="$emit(isStop ? 'resume' : 'pause')">{{status}}</a>
-      <a href="javascript:void(0)" id="skip-animation" @click="$emit('skip')">跳过动画 --&gt;</a>
-      <a href="javascript:void(0)" id="accelerate" @click="$emit('accelerate')">加速 +</a>
-      <span>{{speed}}</span>
-      <a href="javascript:void(0)" id="decelerate" @click="$emit('decelerate')">- 减速</a>
+    <span style="float:left" v-if="isComplete">
+      <a href="javascript:void(0)" @click="$emit('enter')">&lt;-- 观看简历生成动画 --&gt;</a>
     </span>
-    <span style="float:left" v-show="isSkip">
-      <a href="javascript:void(0)" id="replay" @click="$emit('replay')">&lt;-- 重播</a>
+    <span style="float:left" v-else>
+      <span v-if="isSkip">
+        <a href="javascript:void(0)" @click="$emit('exit')">&lt;-- 退出 --&gt;</a>
+        <a href="javascript:void(0)" @click="$emit('replay')">重播 --&gt;</a>
+      </span>
+      <span v-else>
+        <a href="javascript:void(0)" @click="$emit(isStop ? 'resume' : 'pause')">{{status}}</a>
+        <a href="javascript:void(0)" @click="$emit('skip')">跳过动画 --&gt;</a>
+        <a href="javascript:void(0)" @click="$emit('accelerate')">加速 +</a>
+        <span>{{speed}}</span>
+        <a href="javascript:void(0)" @click="$emit('decelerate')">- 减速</a>
+      </span>
     </span>
     <span style="float:right">
-      <a href="https://hmhao.github.io/">Blog</a>
+      <a href="https://hmhao.github.io/">博客</a>
       <a href="https://github.com/hmhao">GitHub</a>
-      <a href="https://github.com/hmhao">View Source</a>
+      <a href="https://github.com/hmhao/vue2-resume">源码</a>
     </span>
   </div>
 </template>
@@ -24,6 +30,7 @@ export default {
   props: {
     isStop: Boolean,
     isSkip: Boolean,
+    isComplete: Boolean,
     scale: Number
   },
   computed: {
