@@ -18,7 +18,8 @@
       @skip="isSkip = true" 
       @replay="remakeResume" 
       @accelerate="scale < 2 && scale++" 
-      @decelerate="scale > -2 && scale--">
+      @decelerate="scale > -2 && scale--"
+      @download="download">
     </AppFooter>
   </div>
 </template>
@@ -29,6 +30,10 @@ import ResumeEditor from '@/components/ResumeEditor'
 import AppFooter from '@/components/Footer'
 import style from '@/assets/style.ecss'
 import resume from '@/assets/resume.md'
+
+import html2canvas from 'html2canvas'
+window.html2canvas = html2canvas
+import jsPDF from 'jsPDF'
 
 export default {
   name: 'app',
@@ -160,6 +165,13 @@ export default {
         setTimeout(function() {
           resolve()
         }, duration)
+      })
+    },
+    download () {
+      let resume = this.$refs.resumeEditor.$el
+      let pdf = new jsPDF()
+      pdf.addHTML(resume, {}, function () {
+        pdf.save('xxx-简历')
       })
     }
   }

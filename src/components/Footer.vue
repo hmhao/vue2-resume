@@ -17,6 +17,7 @@
       </span>
     </span>
     <span style="float:right">
+      <a href="javascript:void(0)" v-if="isComplete" @click="$emit('download')">下载简历</a>
       <a href="https://hmhao.github.io/">博客</a>
       <a href="https://github.com/hmhao">GitHub</a>
       <a href="https://github.com/hmhao/vue2-resume">源码</a>
