@@ -85,3 +85,17 @@ html{
   padding: .5em;
   background: #ddd;
 }
+
+/* 如果大于1024，则左右布局 */
+@media (min-width:1024px){
+  .side-right{
+    width: 75%;
+    padding-left: 1rem;
+    border-left: 1px #000 solid;
+    float: right;
+  }
+  .side-left{
+    width: 25%;
+    float: left;
+  }
+}

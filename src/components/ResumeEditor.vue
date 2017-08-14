@@ -7,6 +7,25 @@
 
 <script>
 import marked from 'marked'
+const rendererMD = new marked.Renderer()
+const regex = /^\[side-(left|right)-(start|end)\]$/g
+rendererMD.paragraph = function (text) {
+  let match = regex.exec(text)
+  regex.lastIndex = 0
+  if (match) {
+    if (match[2] === 'start') {
+      return `<div class="side-${match[1]}">`
+    } else {
+      return `</div>`
+    }
+  } else {
+    return `<p>${text}</p>\n`
+  }
+}
+marked.setOptions({
+  renderer: rendererMD
+})
+
 export default {
   name: 'resume-editor',
   props: {
